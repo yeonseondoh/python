@@ -2,29 +2,28 @@ import pickle
 import os
 
 def save_scores(scores, filename='score.bin'):
-    """학생 점수 저장"""
     with open(filename, 'wb') as f:
         pickle.dump(scores, f)
+    print(f"Scores saved to {filename}.")
 
 def load_scores(filename='score.bin'):
-    """파일에서 학생 점수 불러옴"""
     if os.path.exists(filename):
         with open(filename, 'rb') as f:
             scores = pickle.load(f)
+        print(f"Scores loaded from {filename}.")
         return scores
     else:
-        print(f"No existing score file found at {filename}. Starting with an empty score list.")
+        print(f"{filename}에 점수가 없습니다.")
         return []
 
 def main():
     scores = load_scores()
 
+    print("[파일 읽기]")
     if scores:
-        print("[파일 읽기]")
-        for score in scores:
-            print(score)
+        print(scores)
     else:
-        print("No scores loaded, you can enter new scores.")
+        print("No scores found.")
 
     print("[점수 입력]")
     score_1 = input("#1: ")
@@ -39,8 +38,10 @@ def main():
         print("[점수 출력]")
         print(f"평균: {average_score:.2f}")
     except ValueError:
-        print("Please enter numeric values for scores.")
+        print("정수로 다시 입력하세요")
 
+    # 프로그램 종료 전에 새로운 점수를 기존 점수에 추가하고 저장
+    scores.extend([score_1, score_2, score_3])
     save_scores(scores)
 
 if __name__ == "__main__":
